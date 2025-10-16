@@ -54,6 +54,9 @@ jobs:
         run: |
           rm -rf dist/*
           rm -rf media/*
+
+      - name: Try downloading all artifacts (debug)
+        uses: actions/download-artifact@v5
           
       - name: Download built-dist
         uses: actions/download-artifact@v5
