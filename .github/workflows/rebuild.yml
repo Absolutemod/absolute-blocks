@@ -19,9 +19,19 @@ jobs:
       
       - name: Rebuild
         run: |
-         sudo apt install python2
-         npm install
-         npm run translate
+         sudo apt update
+         sudo apt install build-essential libssl-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev
+
+         # Download Python 2.7.18 (last release)
+         cd /usr/src
+         sudo wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz
+         sudo tar xzf Python-2.7.18.tgz
+         cd Python-2.7.18
+         sudo ./configure --enable-optimizations
+         sudo make altinstall  # Use altinstall to avoid overwriting system Python
+
+         # Check if installed
+         python2.7 --version
        
       - name: Upload built-dist
         uses: actions/upload-artifact@v4
