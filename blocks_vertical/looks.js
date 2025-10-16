@@ -1115,3 +1115,70 @@ Blockly.Blocks['looks_getinput_menu'] = {
     });
   }
 };
+
+Blockly.Blocks["looks_changeStretch"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "category": "looks",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "X"
+        },
+        {
+          "type": "input_value",
+          "name": "Y"
+        }
+      ],
+      "message0": "change stretch by x: %1 y: %2",
+      "extensions": [
+        "shape_statement",
+        "colours_looks"
+      ]
+    });
+  }
+};
+
+Blockly.Blocks['looks_goTargetLayer'] = {
+  /**
+   * "Go infront/behind [sprite]" Block.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "go %1 %2",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "FORWARD_BACKWARD",
+          "options": [
+            ['infront', 'infront'],
+            ['behind', 'behind']
+          ]
+        },
+        {
+          "type": "input_value",
+          "name": "VISIBLE_OPTION"
+        }
+      ],
+      "category": Blockly.Categories.looks,
+      "extensions": ["colours_looks", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['looks_costumes'] = {
+  /**
+   * Block to report costume list
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "costumes",
+      "category": Blockly.Categories.looks,
+      "checkboxInFlyout": true,
+      "extensions": ["colours_looks", "output_string"]
+    });
+  }
+};

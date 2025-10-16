@@ -427,7 +427,7 @@ Blockly.VariableCategory.addCreateButton = function(xmlList, workspace, type) {
     Blockly.Variables.createVariable(button.getTargetWorkspace(), null, '');};
 
   if (type === 'LIST') {
-    msg = Blockly.Msg.NEW_LIST;
+    msg = "Make a Array";
     callbackKey = 'CREATE_LIST';
     callback = function(button) {
       Blockly.Variables.createVariable(button.getTargetWorkspace(), null,

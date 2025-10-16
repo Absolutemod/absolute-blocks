@@ -48,6 +48,26 @@ Blockly.Blocks['motion_movesteps'] = {
   }
 };
 
+Blockly.Blocks['motion_movegrids'] = {
+  /**
+   * Block to move steps.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "move %1 grids(40 steps)",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "STEPS"
+        }
+      ],
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
+    });
+  }
+};
+
 Blockly.Blocks['motion_movebacksteps'] = {
   /**
    * pm: Block to move back steps.
@@ -882,6 +902,38 @@ Blockly.Blocks['motion_yscroll'] = {
       "message0": Blockly.Msg.MOTION_YSCROLL,
       "category": Blockly.Categories.motion,
       "extensions": ["colours_motion", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks["motion_pointtowards_xyfrom"] = {
+  /**
+   * Block to point towards a specific x and y coordinate from an x y position.
+   * @this Blockly.Block
+    */
+  init: function() {
+    this.jsonInit({
+      "message0": "point towards x: %1 y: %2 from x: %3 y: %4",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "X"
+        },
+        {
+          "type": "input_value",
+          "name": "Y"
+        },
+        {
+          "type": "input_value",
+          "name": "FROMX"
+        },
+        {
+          "type": "input_value",
+          "name": "FROMY"
+        }
+      ],
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
     });
   }
 };
