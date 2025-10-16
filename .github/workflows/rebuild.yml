@@ -1,79 +1,79 @@
 name: Rebuild
-
 on:
   workflow_dispatch:
   push:
     branches:
       - develop
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  pull-requests: write
+  deployments: write
+  
+concurrency:
+  group: "pages"
+
 jobs:
-  build:
-    concurrency: ci-${{ github.ref }}
-    runs-on: ubuntu-latest
-    outputs:
-      node-version: 16
+  rebuild:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-
-      - name: Checkout source
+      - name: Checkout
         uses: actions/checkout@v3
-
+      
       - name: Rebuild
         run: |
-          sudo apt update
-          sudo apt install build-essential libssl-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev
-
-          cd /usr/src
-          sudo wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz
-          sudo tar xzf Python-2.7.18.tgz
-          cd Python-2.7.18
-          sudo ./configure --enable-optimizations
-          sudo make altinstall
-          python2.7 --version
-
+         sudo apt install python2
+         npm install
+         npm run translate
+       
       - name: Upload built-dist
         uses: actions/upload-artifact@v4
         with:
           name: built-dist
-          path: dist/
-
+          path: dist
       - name: Upload built-media
         uses: actions/upload-artifact@v4
         with:
           name: built-media
-          path: media/
+          path: media
 
-  commit-to-develop-builds:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout develop-builds branch
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './'
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+          
+      - name: Checkout to develop-builds
         uses: actions/checkout@v3
         with:
           ref: develop-builds
-          fetch-depth: 0
-
-      - name: Clear out old builds
+      
+      - name: Clear out things
         run: |
           rm -rf dist/*
           rm -rf media/*
-
+          
       - name: Download built-dist
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4
         with:
           name: built-dist
           path: dist/
-
       - name: Download built-media
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4
         with:
           name: built-media
           path: media/
-
-      - name: Commit changes
+      
+      - name: Commit
         uses: EndBug/add-and-commit@v9.1.1
         with:
           message: "Build"
